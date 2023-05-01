@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>Using sendBeacon()</title>
+
+    <link rel="stylesheet" type="text/css" href="../neat.css">
+    <link rel="stylesheet" type="text/css" href="../custom.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+
+</head>
+
+<body>
+
+    <h1>Using sendBeacon()</h1>
+
+    <p>When I created my first beacon script I called it "counter". I was thinking of the old school web counters where you litterally embed an image of counter on the page. That would call a backend system that increased the number by one and generated a new image. Of course, there were lots of variations.</p>
+
+    <p>In the version I wrote for Protective Metrics I decided to give it a more appropriate name and I landed on <em>Beacon</em>. As I was doing some quick searches to make sure I was using the word properly I came across the JavaScript sendBeacon() function. It's actually designed for exactly this pupose.</p>
+
+    <code>
+        const privateMetricsData = {
+            url: window.location.href
+        };
+        navigator.sendBeacon(
+            "https://collector.protectivemetrics.com", 
+            JSON.stringify(privateMetricsData)
+        );
+    </code>
+
+    <p>My original code used the <em>XMLHttpRequest()</em> method. Here's an example of that code:</p>
+
+    <code>
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "https://counter.example.com?rand=" + Math.random(), true);
+        xhr.setRequestHeader('x-Referrer', window.location.href);
+        xhr.send();
+    </code>
+
+    <p>The problem with using XMLHttpRequest() is that the browser don't always send it. Sometimes the data is cached by the browser, and so the request isn't sent. You can see my workaround for that where I use the <em>rand</em> paramater above.</p>
+
+    <p>Reviewing this code I was also reminded that the header style, where the header starts with "X", is no longer recommended. The new recommendation is to name your header variables <em>sensibly</em>.</p>
+
+    <p><em>Written by Joel Dare on April 30, 2023.</em></p>
+
+</body>
+
+<script src="https://counter.joeldare.com/counter.js" async></script>
+
+</html>
